@@ -1,0 +1,78 @@
+services:
+  api:
+    profiles:
+      - dev
+      - app
+    build:
+      context: ./todo_be
+      dockerfile: ./app.Dockerfile
+    ports:
+      - 8000:8000
+    develop:
+      watch:
+        - path: ./todo_be/todo_be
+          action: rebuild
+    environment:
+      DB_HOST: "postgres"
+      DB_PORT: 5432
+      DB_USER: "postgres"
+      DB_PWD: "postgres"
+      DB_NAME: "todo"
+      DB_SCHEMA: "public"
+      LOG_LEVEL: "DEBUG"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -s http://localhost:8000/healtz" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  migrations:
+    profiles:
+      - dev
+      - app
+      - infra
+    container_name: migrations
+    build:
+      context: ./todo_be
+      dockerfile: ./migrations.Dockerfile
+    environment:
+      DB_HOST: "postgres"
+      DB_PORT: 5432
+      DB_USER: "postgres"
+      DB_PWD: "postgres"
+      DB_NAME: "todo"
+      DB_SCHEMA: "public"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./todo_be/alembic:/todo_be/alembic
+      - ./todo_be/todo_be/db/tables:/todo_be/todo_be/db/tables
+
+  postgres:
+    profiles:
+      - dev
+      - app
+      - infra
+    image: postgres:latest
+    container_name: postgres-container
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: todo
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - todo-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  todo-data:

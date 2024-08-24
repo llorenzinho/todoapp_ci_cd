@@ -1,0 +1,17 @@
+meta {
+  name: List todos
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/todos
+  body: none
+  auth: none
+}
+
+tests {
+  test("status must be 200", function() {
+    expect(res.status).to.eql(200);
+  });
+}

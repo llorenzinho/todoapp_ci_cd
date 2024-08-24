@@ -1,0 +1,53 @@
+name: api-wf
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+    branches:
+    - "main"
+    paths:
+      - "to_be/**"
+      - ".github/workflows/to_be-**"
+  pull_request:
+    branches:
+    - "*"
+    paths:
+      - "to_be/**"
+      - ".github/workflows/to_be-**"
+
+env:
+  POETRY_VERSION: "1.8.3"
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: ./api
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Setup poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | POETRY_VERSION=${{ env.POETRY_VERSION }} python -
+          poetry lock
+      - name: Install dependencies
+        run: |
+          poetry install
+      - name: Ruff Format
+        run: |
+          poetry run ruff check
+      - name: Run tests
+        run: |
+          poetry run pytest -v
+    
+  build-be:
+    runs-on: ubuntu-22.04
+    needs: [test]
+    if: github.event_name != 'pull_request'
+    steps:
+      - run: echo "Hello, world!"
