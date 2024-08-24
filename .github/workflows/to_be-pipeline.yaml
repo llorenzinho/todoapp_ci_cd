@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-22.04
     defaults:
       run:
-        working-directory: ./api
+        working-directory: ./todo_be
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
