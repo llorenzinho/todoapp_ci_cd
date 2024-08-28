@@ -6,14 +6,14 @@ on:
     branches:
     - "main"
     paths:
-      - "to_be/**"
-      - ".github/workflows/to_be-**"
+      - "todo_be/**"
+      - ".github/workflows/todo_be-**"
   pull_request:
     branches:
     - "*"
     paths:
-      - "to_be/**"
-      - ".github/workflows/to_be-**"
+      - "todo_be/**"
+      - ".github/workflows/todo_be-**"
 
 env:
   POETRY_VERSION: "1.8.3"
