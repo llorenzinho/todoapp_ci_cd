@@ -1,4 +1,15 @@
 services:
+  fe:
+    profiles:
+      - uionly
+      - dev
+      - app
+      - infra
+    build:
+      context: ./todo_fe
+      dockerfile: ./Dockerfile
+    ports:
+      - 3000:3000
   api:
     profiles:
       - dev
