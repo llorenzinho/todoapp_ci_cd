@@ -8,6 +8,7 @@ from todo_be.db.dao.todo_dao import TodoDao
 from todo_be.db.database import Database
 from todo_be.routes.healthcheck import HealthCheckRouter
 from todo_be.routes.todo import TodoRouter
+from todo_be.routes.version import VersionRouter
 from todo_be.services.todo import TodoService
 
 logger = get_logger()
@@ -42,4 +43,5 @@ app.add_middleware(
 )
 
 app.include_router(HealthCheckRouter.get_router())
+app.include_router(VersionRouter.get_router())
 app.include_router(TodoRouter.get_router(todo_service))

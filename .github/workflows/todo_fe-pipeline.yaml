@@ -1,0 +1,37 @@
+name: fe-wf
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+    branches:
+    - "main"
+    paths:
+      - "todo_fe/**"
+      - ".github/workflows/todo_fe-**"
+  pull_request:
+    branches:
+    - "*"
+    paths:
+      - "todo_fe/**"
+      - ".github/workflows/todo_fe-**"
+
+jobs:
+  build-fe:
+    runs-on: ubuntu-22.04
+    if: github.event_name != 'pull_request'
+    steps:
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/fe-app-tutorial:latest

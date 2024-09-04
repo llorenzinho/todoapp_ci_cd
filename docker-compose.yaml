@@ -4,14 +4,17 @@ services:
       - uionly
       - dev
       - app
-      - infra
     build:
       context: ./todo_fe
       dockerfile: ./Dockerfile
+    environment:
+      PORT: 3000
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8000
     ports:
       - 3000:3000
   api:
     profiles:
+      - be
       - dev
       - app
     build:
@@ -44,6 +47,7 @@ services:
 
   migrations:
     profiles:
+      - be
       - dev
       - app
       - infra
@@ -67,6 +71,7 @@ services:
 
   postgres:
     profiles:
+      - be
       - dev
       - app
       - infra
