@@ -65,5 +65,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: todo_be
+          file: ./todo_be/app.Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/be-app-tutorial:latest
