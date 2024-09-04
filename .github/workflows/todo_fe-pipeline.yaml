@@ -19,9 +19,6 @@ jobs:
   build-fe:
     runs-on: ubuntu-22.04
     if: github.event_name != 'pull_request'
-    defaults:
-      run:
-        working-directory: ./todo_fe
     steps:
       -
         name: Set up Docker Buildx
@@ -36,6 +33,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v6
         with:
+          context: ./todo_fe
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/fe-app-tutorial:latest
           
