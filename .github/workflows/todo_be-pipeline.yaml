@@ -49,6 +49,9 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [test]
     if: github.event_name != 'pull_request'
+    defaults:
+      run:
+        working-directory: ./todo_be
     steps:
       -
         name: Set up Docker Buildx
