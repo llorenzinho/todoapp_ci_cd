@@ -10,7 +10,7 @@ python = "^3.12"
 fastapi = "^0.112.1"
 uvicorn = "^0.30.6"
 sqlalchemy = "^2.0.32"
-pydantic-settings = "^2.4.0"
+pydantic-settings = "^2.5.2"
 psycopg2 = "^2.9.9"
 
 
@@ -23,7 +23,7 @@ pytest = "^8.3.2"
 alembic = "^1.13.2"
 sqlalchemy = "^2.0.32"
 pydantic = "^2.8.2"
-pydantic-settings = "^2.4.0"
+pydantic-settings = "^2.5.2"
 psycopg2 = "^2.9.9"
 
 [build-system]
